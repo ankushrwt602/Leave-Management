@@ -14,26 +14,6 @@
     <!-- Styles -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-    <style>
-        .forgap{
-    gap:20px;
-}
-    </style>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-                darkMode: 'class',
-                theme: {
-                    extend: {
-                        fontFamily: {
-                            sans: ['Instrument Sans', 'ui-sans-serif', 'system-ui', 'sans-serif', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji']
-                        }
-                    }
-                }
-            }
-        </script>
-    @endif
     <style>
         .nav-link {
             @apply inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium leading-5 transition duration-150 ease-in-out;
