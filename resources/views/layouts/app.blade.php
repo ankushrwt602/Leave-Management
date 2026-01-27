@@ -10,10 +10,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap" rel="stylesheet" />
-
-    <!-- Styles -->
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+<!-- Styles -->
+@if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+@else
     <style>
         .nav-link {
             @apply inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium leading-5 transition duration-150 ease-in-out;
@@ -26,7 +26,8 @@
         .nav-link.active {
             @apply bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200;
         }
-    </style>
+        </style>
+    @endif
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 font-sans antialiased">
     <div class="min-h-screen flex flex-col">
