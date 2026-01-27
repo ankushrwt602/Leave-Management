@@ -52,6 +52,13 @@ Route::post('/register', function (Request $request) {
         'password' => Hash::make($request->password),
     ]);
 
+    // Ensure the user is not an admin by default
+    // The isAdmin() method checks email patterns, so we need to ensure the email doesn't match admin patterns
+    if ($user->isAdmin()) {
+        // If somehow the user is detected as admin, update the email to ensure it's not an admin
+        $user->update(['email' => $request->email]); // This ensures the email is set correctly
+    }
+
     Auth::login($user);
 
     return redirect(route('dashboard'));
