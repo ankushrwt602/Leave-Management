@@ -15,7 +15,6 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     // Dashboard routes
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('/calendar', [DashboardController::class, 'calendar'])->name('calendar');
     Route::get('/balance', [DashboardController::class, 'balance'])->name('balance');
 
     // Leave request routes

@@ -24,7 +24,7 @@
                     <div class="flex">
 
                         <!-- Navigation Links -->
-                        <div class="hidden forgap sm:flex sm:items-center sm:space-x-2">
+                        <div class="hidden sm:flex sm:items-center sm:space-x-2">
                             <a href="{{ route('dashboard') }}"
                                class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -46,13 +46,6 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
                                 </svg>
                                 Balance
-                            </a>
-                            <a href="{{ route('calendar') }}"
-                               class="nav-link {{ request()->routeIs('calendar') ? 'active' : '' }}">
-                                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                </svg>
-                                Calendar
                             </a>
                             @if(auth()->check() && auth()->user()->canApproveLeaveRequests())
                                 <a href="{{ route('leave-approvals.index') }}"
@@ -141,13 +134,6 @@
                         </svg>
                         Balance
                     </a>
-                    <a href="{{ route('calendar') }}"
-                       class="block pl-3 pr-4 py-3 text-base font-medium rounded-lg {{ request()->routeIs('calendar') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700' }}">
-                        <svg class="w-5 h-5 mr-3 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                        </svg>
-                        Calendar
-                    </a>
                     @if(auth()->check() && auth()->user()->canApproveLeaveRequests())
                         <a href="{{ route('leave-approvals.index') }}"
                            class="block pl-3 pr-4 py-3 text-base font-medium rounded-lg {{ request()->routeIs('leave-approvals.*') ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700' }}">
@@ -202,18 +188,22 @@
 
     <script>
         // Mobile menu toggle
-        document.querySelector('.mobile-menu-button')?.addEventListener('click', function() {
-            const mobileMenu = document.querySelector('.mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Close mobile menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const mobileMenu = document.querySelector('.mobile-menu');
+        document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
 
-            if (!mobileMenu?.contains(event.target) && !mobileMenuButton?.contains(event.target)) {
-                mobileMenu?.classList.add('hidden');
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function(event) {
+                    event.stopPropagation();
+                    mobileMenu.classList.toggle('hidden');
+                });
+
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
             }
         });
     </script>

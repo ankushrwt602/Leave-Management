@@ -19,7 +19,14 @@ class LeaveRequestController extends Controller
      */
     public function index()
     {
-        $leaveRequests = Auth::user()->leaveRequests()
+        $user = Auth::user();
+
+        // Check if user is admin and redirect to admin dashboard
+        if ($user->isAdmin()) {
+            return redirect()->route('dashboard')->with('error', 'Admins cannot access this page.');
+        }
+
+        $leaveRequests = $user->leaveRequests()
             ->with('leaveType')
             ->orderBy('created_at', 'desc')
             ->paginate(15);
