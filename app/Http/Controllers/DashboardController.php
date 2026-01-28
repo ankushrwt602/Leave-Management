@@ -204,6 +204,7 @@ class DashboardController extends Controller
             ->withCount(['leaveRequests as approved_requests' => function ($query) {
                 $query->where('status', 'approved');
             }])
+            ->orderBy('is_admin', 'desc') // Show admins first
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -244,13 +245,8 @@ class DashboardController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'is_admin' => $validated['is_admin'] ?? false,
         ]);
-
-        // If marked as admin, ensure it has admin privileges
-        if ($validated['is_admin'] ?? false) {
-            // Admin status is determined by email in isAdmin() method
-            // For now, we'll rely on the existing logic
-        }
 
         return redirect()->route('admin.users')->with('success', 'User created successfully');
     }
@@ -290,6 +286,7 @@ class DashboardController extends Controller
         $updateData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'is_admin' => $validated['is_admin'] ?? false,
         ];
 
         if ($validated['password']) {

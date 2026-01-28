@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
+        'is_admin',
     ];
 
     /**
@@ -45,6 +46,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
@@ -144,7 +146,12 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        // Check for common admin email patterns
+        // First check the database field
+        if ($this->is_admin) {
+            return true;
+        }
+
+        // Fallback to email patterns for backward compatibility
         $adminEmailPatterns = [
             'admin@example.com',
             'test@example.com',
