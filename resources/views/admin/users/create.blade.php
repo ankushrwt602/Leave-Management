@@ -70,7 +70,6 @@
                     </div>
 
                     <!-- Admin Role -->
-                    @if(\Schema::hasColumn('users', 'is_admin'))
                     <div class="md:col-span-2">
                         <div class="flex items-center">
                             <input type="checkbox" id="is_admin" name="is_admin" value="1"
@@ -84,7 +83,6 @@
                             Administrators can manage leave types, approve requests, and access user management features.
                         </p>
                     </div>
-                    @endif
                 </div>
 
                 <!-- Form Actions -->
