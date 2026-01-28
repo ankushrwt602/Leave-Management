@@ -24,7 +24,10 @@ class GoogleController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if ($user) {
-                // User exists, log them in
+                // User exists, update google_id if not set, then log them in
+                if (!$user->google_id) {
+                    $user->update(['google_id' => $googleUser->getId()]);
+                }
                 Auth::login($user);
             } else {
                 // Create new user
