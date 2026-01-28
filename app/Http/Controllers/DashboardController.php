@@ -197,16 +197,20 @@ class DashboardController extends Controller
             abort(403, 'This action is unauthorized.');
         }
 
-        $users = User::with(['leaveRequests', 'leaveBalances'])
+        $query = User::with(['leaveRequests', 'leaveBalances'])
             ->withCount(['leaveRequests as pending_requests' => function ($query) {
                 $query->where('status', 'pending');
             }])
             ->withCount(['leaveRequests as approved_requests' => function ($query) {
                 $query->where('status', 'approved');
-            }])
-            ->orderBy('is_admin', 'desc') // Show admins first
-            ->orderBy('created_at', 'desc')
-            ->get();
+            }]);
+
+        // Only order by is_admin if the column exists (for backward compatibility)
+        if (\Schema::hasColumn('users', 'is_admin')) {
+            $query->orderBy('is_admin', 'desc');
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->get();
 
         return view('admin.users.index', compact('users'));
     }
@@ -234,19 +238,31 @@ class DashboardController extends Controller
             abort(403, 'This action is unauthorized.');
         }
 
-        $validated = $request->validate([
+        $validationRules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'is_admin' => ['boolean']
-        ]);
+        ];
 
-        $user = User::create([
+        // Only validate is_admin if the column exists
+        if (\Schema::hasColumn('users', 'is_admin')) {
+            $validationRules['is_admin'] = ['boolean'];
+        }
+
+        $validated = $request->validate($validationRules);
+
+        $userData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'is_admin' => $validated['is_admin'] ?? false,
-        ]);
+        ];
+
+        // Only set is_admin if the column exists
+        if (\Schema::hasColumn('users', 'is_admin')) {
+            $userData['is_admin'] = $validated['is_admin'] ?? false;
+        }
+
+        $user = User::create($userData);
 
         return redirect()->route('admin.users')->with('success', 'User created successfully');
     }
@@ -274,20 +290,30 @@ class DashboardController extends Controller
             abort(403, 'This action is unauthorized.');
         }
 
-        $validated = $request->validate([
+        $validationRules = [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'is_admin' => ['boolean'],
             'leave_allocation' => ['nullable', 'array'],
             'leave_allocation.*' => ['numeric', 'min:0']
-        ]);
+        ];
+
+        // Only validate is_admin if the column exists
+        if (\Schema::hasColumn('users', 'is_admin')) {
+            $validationRules['is_admin'] = ['boolean'];
+        }
+
+        $validated = $request->validate($validationRules);
 
         $updateData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
-            'is_admin' => $validated['is_admin'] ?? false,
         ];
+
+        // Only set is_admin if the column exists
+        if (\Schema::hasColumn('users', 'is_admin')) {
+            $updateData['is_admin'] = $validated['is_admin'] ?? false;
+        }
 
         if ($validated['password']) {
             $updateData['password'] = Hash::make($validated['password']);

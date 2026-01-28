@@ -23,7 +23,6 @@ class User extends Authenticatable
         'email',
         'password',
         'google_id',
-        'is_admin',
     ];
 
     /**
@@ -43,11 +42,18 @@ class User extends Authenticatable
      */
     protected function casts(): array
     {
-        return [
+        $casts = [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean',
         ];
+
+        // Only cast is_admin if the column exists
+        if (\Schema::hasColumn('users', 'is_admin')) {
+            $casts['is_admin'] = 'boolean';
+            $this->fillable[] = 'is_admin'; // Add to fillable if column exists
+        }
+
+        return $casts;
     }
 
     /**
@@ -146,8 +152,8 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        // First check the database field
-        if ($this->is_admin) {
+        // First check the database field if it exists
+        if (\Schema::hasColumn('users', 'is_admin') && $this->is_admin) {
             return true;
         }
 
