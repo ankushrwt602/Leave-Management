@@ -15,7 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register Socialite service provider
+        $this->app->register(\Laravel\Socialite\SocialiteServiceProvider::class);
     }
 
     /**
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register Socialite alias
+        if (!class_exists('Socialite')) {
+            class_alias(\Laravel\Socialite\Facades\Socialite::class, 'Socialite');
+        }
+
         // Register policies
         Gate::policy(LeaveRequest::class, \App\Policies\LeaveRequestPolicy::class);
         Gate::policy(User::class, \App\Policies\UserPolicy::class);
