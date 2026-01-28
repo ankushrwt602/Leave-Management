@@ -3,7 +3,6 @@
 @section('title', 'My Leave Requests')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-8">
         <div>
             <h1 class="text-3xl font-bold text-gray-900 dark:text-white">My Leave Requests</h1>
@@ -151,7 +150,6 @@
             @endif
         </div>
     </div>
-</div>
 
 <script>
 // Status filter functionality
