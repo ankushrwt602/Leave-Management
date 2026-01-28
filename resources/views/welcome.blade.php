@@ -49,9 +49,35 @@
                 </nav>
             @endif
         </header>
-        <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
+        <div class="flex items-center mt-20 justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="flex max-w-[335px] w-full flex-col-reverse lg:max-w-4xl lg:flex-row">
-                
+                <div class="flex-1 text-center lg:text-left">
+                    <h1 class="text-4xl lg:text-5xl font-bold mb-2 text-[#1b1b18] dark:text-[#EDEDEC]">
+                        Welcome to Leave Management System
+                    </h1>
+                    <p class="text-sm mb-6 text-[#706f6c] dark:text-[#A1A09A]">
+                        Powered by Imagitrue Technologies Pvt. Ltd
+                    </p>
+                    <p class="text-lg lg:text-xl mb-8 text-[#706f6c] dark:text-[#A1A09A] leading-relaxed">
+                        Efficiently manage your leave requests, track balances, and streamline approvals with our intuitive platform designed for modern workplaces.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="{{ route('login') }}" class="inline-flex items-center justify-center px-6 py-3 bg-[#1b1b18] dark:bg-[#EDEDEC] text-white dark:text-[#1b1b18] font-medium rounded-lg hover:bg-[#706f6c] dark:hover:bg-[#A1A09A] transition-colors duration-200">
+                            Log In
+                        </a>
+                        <a href="{{ route('register') }}" class="inline-flex items-center justify-center px-6 py-3 border-2 border-[#1b1b18] dark:border-[#EDEDEC] text-[#1b1b18] dark:text-[#EDEDEC] font-medium rounded-lg hover:bg-[#1b1b18] dark:hover:bg-[#EDEDEC] hover:text-white dark:hover:text-[#1b1b18] transition-colors duration-200">
+                            Get Started
+                        </a>
+                    </div>
+                </div>
+                <div class="flex-0 hidden lg:flex items-center justify-center">
+                    <!-- Placeholder for illustration or image -->
+                    <div class="w-96 h-96 bg-gradient-to-br from-[#dbdbd7] to-[#fff2f2] dark:from-[#3E3E3A] dark:to-[#1D0002] rounded-full flex items-center justify-center">
+                        <svg class="w-32 h-32 text-[#706f6c] dark:text-[#A1A09A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </div>
+                </div>
             </main>
         </div>
 
