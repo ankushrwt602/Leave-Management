@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\LeaveRequest;
 use App\Models\LeaveType;
 use App\Models\LeaveBalance;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LeaveRequestSubmitted;
+use App\Mail\LeaveRequestAdminNotification;
 use Carbon\Carbon;
 
 class LeaveRequestController extends Controller

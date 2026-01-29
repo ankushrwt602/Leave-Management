@@ -77,7 +77,7 @@
                                </span>
                                <span id="selected-days-count" class="ml-2 font-medium">
                                    @if(old('start_date') && old('end_date'))
-                                       ({{ \DateTime::createFromFormat('Y-m-d', old('start_date'))->diffInDays(\DateTime::createFromFormat('Y-m-d', old('end_date'))) + 1 }} days)
+                                       ({{ \DateTime::createFromFormat('Y-m-d', old('start_date'))->diff(\DateTime::createFromFormat('Y-m-d', old('end_date')))->days + 1 }} days)
                                    @endif
                                </span>
                            </p>
