@@ -179,6 +179,14 @@ class DashboardController extends Controller
                 ->orderBy('leave_types.name', 'asc')
                 ->select('leave_balances.*')
                 ->get();
+        } else {
+            // Update existing balances to use default days if they are still 0
+            $currentYearBalances = $balances->where('year', $currentYear);
+            foreach ($currentYearBalances as $balance) {
+                if ($balance->allocated_days == 0 && $balance->carried_forward_days == 0 && $balance->adjustment_days == 0) {
+                    $balance->update(['allocated_days' => $balance->leaveType->default_days_per_year]);
+                }
+            }
         }
 
         // Group by year for display

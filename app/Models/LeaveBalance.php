@@ -140,7 +140,11 @@ class LeaveBalance extends Model
                 'year' => $year,
             ],
             [
-                'allocated_days' => 0, // Start with 0, admins can allocate specific amounts
+                'allocated_days' => $leaveType->default_days_per_year,
+                'used_days' => 0,
+                'pending_days' => 0,
+                'carried_forward_days' => 0,
+                'adjustment_days' => 0,
             ]
         );
     }
